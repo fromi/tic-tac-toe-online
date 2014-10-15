@@ -161,9 +161,9 @@
             <version>${commons-lang.version}</version>
         </dependency>
         <dependency>
-            <groupId>cz.jirutka.spring</groupId>
-            <artifactId>embedmongo-spring</artifactId>
-            <version>1.2.1</version>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.mongo</artifactId>
+            <version>1.46.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
