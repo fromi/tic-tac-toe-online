@@ -1,2 +1,2 @@
-tic-tac-toe-online
-==================
+README for TicTacToe
+==========================
