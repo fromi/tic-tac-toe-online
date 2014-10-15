@@ -22,9 +22,6 @@ import javax.inject.Inject;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    // WARNING : you have configured the project to use Websockets and OAuth2 authentication, which do not work together: https://github.com/jhipster/generator-jhipster/issues/490
-
-
     @Inject
     private UserDetailsService userDetailsService;
 
@@ -52,17 +49,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/i18n/**")
             .antMatchers("/swagger-ui/**")
             .antMatchers("/app/rest/register")
-            .antMatchers("/app/rest/activate");
+            .antMatchers("/app/rest/activate")
+            .antMatchers("/websocket/activity");
     }
-    
-    
-    
+
 	@Override
 	@Bean
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
-	
+
     @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
     private static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
 

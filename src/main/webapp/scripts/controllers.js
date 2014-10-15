@@ -143,7 +143,7 @@ tictactoeApp.controller('SessionsController', function ($scope, resolvedSessions
         };
     });
 
- tictactoeApp.controller('TrackerController', function ($scope) {
+ tictactoeApp.controller('TrackerController', function ($scope, AccessToken) {
         // This controller uses the Atmosphere framework to keep a Websocket connection opened, and receive
         // user activities in real-time.
 
@@ -152,7 +152,7 @@ tictactoeApp.controller('SessionsController', function ($scope, resolvedSessions
         $scope.trackerSubSocket;
         $scope.trackerTransport = 'websocket';
 
-        $scope.trackerRequest = { url: 'websocket/tracker',
+        $scope.trackerRequest = { url: 'websocket/tracker?access_token=' + AccessToken.get(),
             contentType : "application/json",
             transport : $scope.trackerTransport ,
             trackMessageLength : true,
