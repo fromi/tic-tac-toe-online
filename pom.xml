@@ -410,6 +410,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <!--Solves an inconsistency from spring-boot-starter-parent-1.1.7.RELEASE-->
+                <!--TODO: upgrade spring-boot-starter-parent and remove version here-->
+                <version>2.17</version>
                 <configuration>
                     <argLine>-Xmx256m</argLine>
                     <forkCount>1</forkCount>
