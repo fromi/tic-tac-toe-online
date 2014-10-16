@@ -2,7 +2,7 @@
 
 describe('Services Tests ', function () {
 
-    beforeEach(module('tictactoeApp'));
+    beforeEach(module('TicTacToe'));
 
     describe('AuthenticationSharedService', function () {
         var serviceTested,

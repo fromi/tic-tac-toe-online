@@ -1,4 +1,4 @@
-angular.module('tictactoeAppUtils', [])
+angular.module('TicTacToeUtils', [])
     .service('Base64Service', function () {
         var keyStr = "ABCDEFGHIJKLMNOP" +
             "QRSTUVWXYZabcdef" +

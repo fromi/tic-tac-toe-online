@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('tictactoeApp')
+angular.module('TicTacToe')
     .directive('activeMenu', function($translate, $locale, tmhDynamicLocale) {
         return {
             restrict: 'A',

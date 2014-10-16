@@ -2,13 +2,13 @@
 
 /* Controllers */
 
-tictactoeApp.controller('MainController', function ($scope) {
+angular.module('TicTacToe').controller('MainController', function ($scope) {
     });
 
-tictactoeApp.controller('AdminController', function ($scope) {
+angular.module('TicTacToe').controller('AdminController', function ($scope) {
     });
 
-tictactoeApp.controller('LanguageController', function ($scope, $translate, LanguageService) {
+angular.module('TicTacToe').controller('LanguageController', function ($scope, $translate, LanguageService) {
         $scope.changeLanguage = function (languageKey) {
             $translate.use(languageKey);
 
@@ -22,10 +22,10 @@ tictactoeApp.controller('LanguageController', function ($scope, $translate, Lang
         });
     });
 
-tictactoeApp.controller('MenuController', function ($scope) {
+angular.module('TicTacToe').controller('MenuController', function ($scope) {
     });
 
-tictactoeApp.controller('LoginController', function ($scope, $location, AuthenticationSharedService) {
+angular.module('TicTacToe').controller('LoginController', function ($scope, $location, AuthenticationSharedService) {
         $scope.rememberMe = true;
         $scope.login = function () {
             AuthenticationSharedService.login({
@@ -36,11 +36,11 @@ tictactoeApp.controller('LoginController', function ($scope, $location, Authenti
         }
     });
 
-tictactoeApp.controller('LogoutController', function ($location, AuthenticationSharedService) {
+angular.module('TicTacToe').controller('LogoutController', function ($location, AuthenticationSharedService) {
         AuthenticationSharedService.logout();
     });
 
-tictactoeApp.controller('SettingsController', function ($scope, Account) {
+angular.module('TicTacToe').controller('SettingsController', function ($scope, Account) {
         $scope.success = null;
         $scope.error = null;
         $scope.settingsAccount = Account.get();
@@ -59,7 +59,7 @@ tictactoeApp.controller('SettingsController', function ($scope, Account) {
         };
     });
 
-tictactoeApp.controller('RegisterController', function ($scope, $translate, Register) {
+angular.module('TicTacToe').controller('RegisterController', function ($scope, $translate, Register) {
         $scope.success = null;
         $scope.error = null;
         $scope.doNotMatch = null;
@@ -91,7 +91,7 @@ tictactoeApp.controller('RegisterController', function ($scope, $translate, Regi
         }
     });
 
-tictactoeApp.controller('ActivationController', function ($scope, $routeParams, Activate) {
+angular.module('TicTacToe').controller('ActivationController', function ($scope, $routeParams, Activate) {
         Activate.get({key: $routeParams.key},
             function (value, responseHeaders) {
                 $scope.error = null;
@@ -103,7 +103,7 @@ tictactoeApp.controller('ActivationController', function ($scope, $routeParams, 
             });
     });
 
-tictactoeApp.controller('PasswordController', function ($scope, Password) {
+angular.module('TicTacToe').controller('PasswordController', function ($scope, Password) {
         $scope.success = null;
         $scope.error = null;
         $scope.doNotMatch = null;
@@ -125,7 +125,7 @@ tictactoeApp.controller('PasswordController', function ($scope, Password) {
         };
     });
 
-tictactoeApp.controller('SessionsController', function ($scope, resolvedSessions, Sessions) {
+angular.module('TicTacToe').controller('SessionsController', function ($scope, resolvedSessions, Sessions) {
         $scope.success = null;
         $scope.error = null;
         $scope.sessions = resolvedSessions;
@@ -143,7 +143,7 @@ tictactoeApp.controller('SessionsController', function ($scope, resolvedSessions
         };
     });
 
- tictactoeApp.controller('TrackerController', function ($scope, AccessToken) {
+ angular.module('TicTacToe').controller('TrackerController', function ($scope, AccessToken) {
         // This controller uses the Atmosphere framework to keep a Websocket connection opened, and receive
         // user activities in real-time.
 
@@ -188,7 +188,7 @@ tictactoeApp.controller('SessionsController', function ($scope, resolvedSessions
         $scope.trackerSubSocket = $scope.trackerSocket.subscribe($scope.trackerRequest);
     });
 
-tictactoeApp.controller('MetricsController', function ($scope, MetricsService, HealthCheckService, ThreadDumpService) {
+angular.module('TicTacToe').controller('MetricsController', function ($scope, MetricsService, HealthCheckService, ThreadDumpService) {
 
         $scope.metrics = {};
 		$scope.updatingHealth = true;
@@ -281,7 +281,7 @@ tictactoeApp.controller('MetricsController', function ($scope, MetricsService, H
         };
     });
 
-tictactoeApp.controller('LogsController', function ($scope, resolvedLogs, LogsService) {
+angular.module('TicTacToe').controller('LogsController', function ($scope, resolvedLogs, LogsService) {
         $scope.loggers = resolvedLogs;
 
         $scope.changeLevel = function (name, level) {
@@ -291,7 +291,7 @@ tictactoeApp.controller('LogsController', function ($scope, resolvedLogs, LogsSe
         }
     });
 
-tictactoeApp.controller('AuditsController', function ($scope, $translate, $filter, AuditsService) {
+angular.module('TicTacToe').controller('AuditsController', function ($scope, $translate, $filter, AuditsService) {
         $scope.onChangeDate = function() {
             AuditsService.findByDates($scope.fromDate, $scope.toDate).then(function(data){
                 $scope.audits = data;

@@ -2,7 +2,7 @@
 
 /* Constants */
 
-tictactoeApp.constant('USER_ROLES', {
+angular.module('TicTacToe').constant('USER_ROLES', {
         all: '*',
         admin: 'ROLE_ADMIN',
         user: 'ROLE_USER'
@@ -12,7 +12,7 @@ tictactoeApp.constant('USER_ROLES', {
 Languages codes are ISO_639-1 codes, see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 They are written in English to avoid character encoding issues (not a perfect solution)
 */
-tictactoeApp.constant('LANGUAGES', {
+angular.module('TicTacToe').constant('LANGUAGES', {
         ca: 'Catalan',
         da: 'Danish',
         en: 'English',

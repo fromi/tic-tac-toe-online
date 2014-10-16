@@ -2,7 +2,7 @@
 
 /* Services */
 
-tictactoeApp.factory('LanguageService', function ($http, $translate, LANGUAGES) {
+angular.module('TicTacToe').factory('LanguageService', function ($http, $translate, LANGUAGES) {
         return {
             getBy: function(language) {
                 if (language == undefined) {
@@ -20,34 +20,34 @@ tictactoeApp.factory('LanguageService', function ($http, $translate, LANGUAGES) 
         };
     });
 
-tictactoeApp.factory('Register', function ($resource) {
+angular.module('TicTacToe').factory('Register', function ($resource) {
         return $resource('app/rest/register', {}, {
         });
     });
 
-tictactoeApp.factory('Activate', function ($resource) {
+angular.module('TicTacToe').factory('Activate', function ($resource) {
         return $resource('app/rest/activate', {}, {
             'get': { method: 'GET', params: {}, isArray: false}
         });
     });
 
-tictactoeApp.factory('Account', function ($resource) {
+angular.module('TicTacToe').factory('Account', function ($resource) {
         return $resource('app/rest/account', {}, {
         });
     });
 
-tictactoeApp.factory('Password', function ($resource) {
+angular.module('TicTacToe').factory('Password', function ($resource) {
         return $resource('app/rest/account/change_password', {}, {
         });
     });
 
-tictactoeApp.factory('Sessions', function ($resource) {
+angular.module('TicTacToe').factory('Sessions', function ($resource) {
         return $resource('app/rest/account/sessions/:series', {}, {
             'get': { method: 'GET', isArray: true}
         });
     });
 
-tictactoeApp.factory('MetricsService',function ($http) {
+angular.module('TicTacToe').factory('MetricsService',function ($http) {
     		return {
             get: function() {
                 var promise = $http.get('metrics/metrics').then(function(response){
@@ -58,7 +58,7 @@ tictactoeApp.factory('MetricsService',function ($http) {
         };
     });
 
-tictactoeApp.factory('ThreadDumpService', function ($http) {
+angular.module('TicTacToe').factory('ThreadDumpService', function ($http) {
         return {
             dump: function() {
                 var promise = $http.get('dump').then(function(response){
@@ -69,7 +69,7 @@ tictactoeApp.factory('ThreadDumpService', function ($http) {
         };
     });
 
-tictactoeApp.factory('HealthCheckService', function ($rootScope, $http) {
+angular.module('TicTacToe').factory('HealthCheckService', function ($rootScope, $http) {
         return {
             check: function() {
                 var promise = $http.get('health').then(function(response){
@@ -80,14 +80,14 @@ tictactoeApp.factory('HealthCheckService', function ($rootScope, $http) {
         };
     });
 
-tictactoeApp.factory('LogsService', function ($resource) {
+angular.module('TicTacToe').factory('LogsService', function ($resource) {
         return $resource('app/rest/logs', {}, {
             'findAll': { method: 'GET', isArray: true},
             'changeLevel':  { method: 'PUT'}
         });
     });
 
-tictactoeApp.factory('AuditsService', function ($http) {
+angular.module('TicTacToe').factory('AuditsService', function ($http) {
         return {
             findAll: function() {
                 var promise = $http.get('app/rest/audits/all').then(function (response) {
@@ -104,7 +104,7 @@ tictactoeApp.factory('AuditsService', function ($http) {
         }
     });
 
-tictactoeApp.factory('Session', function () {
+angular.module('TicTacToe').factory('Session', function () {
         this.create = function (login, firstName, lastName, email, userRoles) {
             this.login = login;
             this.firstName = firstName;
@@ -122,7 +122,7 @@ tictactoeApp.factory('Session', function () {
         return this;
     });
 
-tictactoeApp.factory('AuthenticationSharedService', function ($rootScope, $http, authService, Session, Account, Base64Service, AccessToken) {
+angular.module('TicTacToe').factory('AuthenticationSharedService', function ($rootScope, $http, authService, Session, Account, Base64Service, AccessToken) {
         return {
             login: function (param) {
                 var data = "username=" + param.username + "&password=" + param.password + "&grant_type=password&scope=read%20write&client_secret=mySecretOAuthSecret&client_id=TicTacToeapp";
