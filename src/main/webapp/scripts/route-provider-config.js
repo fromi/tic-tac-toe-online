@@ -101,7 +101,6 @@ angular.module('TicTacToe').config(function ($routeProvider, USER_ROLES) {
               })
         .otherwise({
                        templateUrl: 'views/main.html',
-                       controller: 'MainController',
                        access: {
                            authorizedRoles: [USER_ROLES.all]
                        }

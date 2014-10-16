@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
     </head>
-    <body ng-app="TicTacToe" ng-controller="MainController">
+    <body ng-app="TicTacToe">
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -49,7 +49,7 @@
                                     <b class="caret"></b>
                                 </span>
                             </a>
-                            <ul class="dropdown-menu" ng-controller="MenuController">
+                            <ul class="dropdown-menu">
                                 <li ng-switch-when="true"><a href="#/settings"><span class="glyphicon glyphicon-wrench"></span>
                                     &#xA0;<span translate="global.menu.account.settings">Settings</span></a></li>
                                 <li ng-switch-when="true"><a href="#/password"><span class="glyphicon glyphicon-lock"></span>
@@ -65,7 +65,7 @@
                                     &#xA0;<span translate="global.menu.account.register">Register</span></a></li>
                             </ul>
                         </li>
-                        <li ng-switch-when="true" ng-show="isAuthorized(userRoles.admin)" class="dropdown pointer" ng-controller="AdminController">
+                        <li ng-switch-when="true" ng-show="isAuthorized(userRoles.admin)" class="dropdown pointer">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                                 <span>
                                     <span class="glyphicon glyphicon-tower"></span>
@@ -143,7 +143,18 @@
         <script src="scripts/translate-provider-config.js"></script>
         <script src="scripts/dynamic-locale-provider-config.js"></script>
         <script src="scripts/constants.js"></script>
-        <script src="scripts/controllers.js"></script>
+        <script src="scripts/language-controller.js"></script>
+        <script src="scripts/login-controller.js"></script>
+        <script src="scripts/logout-controller.js"></script>
+        <script src="scripts/settings-controller.js"></script>
+        <script src="scripts/register-controller.js"></script>
+        <script src="scripts/activation-controller.js"></script>
+        <script src="scripts/password-controller.js"></script>
+        <script src="scripts/sessions-controller.js"></script>
+        <script src="scripts/tracker-controller.js"></script>
+        <script src="scripts/metrics-controller.js"></script>
+        <script src="scripts/logs-controller.js"></script>
+        <script src="scripts/audits-controller.js"></script>
         <script src="scripts/services.js"></script>
         <script src="scripts/directives.js"></script>
         <script src="bower_components/atmosphere/atmosphere.js"></script>
