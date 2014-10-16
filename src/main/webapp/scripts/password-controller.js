@@ -1,4 +1,4 @@
-angular.module('TicTacToe').controller('PasswordController', function ($scope, Password) {
+angular.module('TicTacToe').controller('PasswordController', function ($scope, $http) {
     $scope.success = null;
     $scope.error = null;
     $scope.doNotMatch = null;
@@ -7,15 +7,13 @@ angular.module('TicTacToe').controller('PasswordController', function ($scope, P
             $scope.doNotMatch = "ERROR";
         } else {
             $scope.doNotMatch = null;
-            Password.save($scope.password,
-                          function () {
-                              $scope.error = null;
-                              $scope.success = 'OK';
-                          },
-                          function () {
-                              $scope.success = null;
-                              $scope.error = "ERROR";
-                          });
+            $http.post('app/rest/account/change_password', $scope.password).success(function () {
+                $scope.error = null;
+                $scope.success = 'OK';
+            }).error(function () {
+                $scope.success = null;
+                $scope.error = "ERROR";
+            });
         }
     };
 });

@@ -1,4 +1,4 @@
-angular.module('TicTacToe').controller('MetricsController', function ($scope, MetricsService, HealthCheckService, ThreadDumpService) {
+angular.module('TicTacToe').controller('MetricsController', function ($scope, $http) {
 
     $scope.metrics = {};
     $scope.updatingHealth = true;
@@ -7,23 +7,22 @@ angular.module('TicTacToe').controller('MetricsController', function ($scope, Me
     $scope.refresh = function () {
         $scope.updatingHealth = true;
         $scope.updatingMetrics = true;
-        HealthCheckService.check().then(function (promise) {
-            $scope.healthCheck = promise;
-            $scope.updatingHealth = false;
-        }, function (promise) {
-            $scope.healthCheck = promise.data;
+
+        $http.get('health').success(function(data) {
+            $scope.healthCheck = data;
+        }).error(function(data) {
+            $scope.healthCheck = data;
+        }).finally(function() {
             $scope.updatingHealth = false;
         });
 
-        MetricsService.get().then(function (promise) {
-            $scope.metrics = promise;
-            $scope.updatingMetrics = false;
-        }, function (promise) {
-            $scope.metrics = promise.data;
+        $http.get('metrics/metrics').success(function(data) {
+            $scope.metrics = data;
+        }).error(function(data) {
+            $scope.metrics = data;
+        }).finally(function() {
             $scope.updatingMetrics = false;
         });
-
-
     };
 
     $scope.$watch('metrics', function (newValue) {
@@ -53,7 +52,7 @@ angular.module('TicTacToe').controller('MetricsController', function ($scope, Me
     $scope.refresh();
 
     $scope.threadDump = function () {
-        ThreadDumpService.dump().then(function (data) {
+        $http.get('dump').success(function (data) {
             $scope.threadDump = data;
 
             $scope.threadDumpRunnable = 0;
@@ -61,7 +60,7 @@ angular.module('TicTacToe').controller('MetricsController', function ($scope, Me
             $scope.threadDumpTimedWaiting = 0;
             $scope.threadDumpBlocked = 0;
 
-            angular.forEach(data, function (value, key) {
+            angular.forEach(data, function (value) {
                 if (value.threadState == 'RUNNABLE') {
                     $scope.threadDumpRunnable += 1;
                 } else if (value.threadState == 'WAITING') {

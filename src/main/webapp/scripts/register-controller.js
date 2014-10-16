@@ -1,4 +1,4 @@
-angular.module('TicTacToe').controller('RegisterController', function ($scope, $translate, Register) {
+angular.module('TicTacToe').controller('RegisterController', function ($scope, $translate, $http) {
     $scope.success = null;
     $scope.error = null;
     $scope.doNotMatch = null;
@@ -9,23 +9,21 @@ angular.module('TicTacToe').controller('RegisterController', function ($scope, $
         } else {
             $scope.registerAccount.langKey = $translate.use();
             $scope.doNotMatch = null;
-            Register.save($scope.registerAccount,
-                          function (value, responseHeaders) {
-                              $scope.error = null;
-                              $scope.errorUserExists = null;
-                              $scope.success = 'OK';
-                          },
-                          function (httpResponse) {
-                              $scope.success = null;
-                              if (httpResponse.status === 304 &&
-                                  httpResponse.data.error && httpResponse.data.error === "Not Modified") {
-                                  $scope.error = null;
-                                  $scope.errorUserExists = "ERROR";
-                              } else {
-                                  $scope.error = "ERROR";
-                                  $scope.errorUserExists = null;
-                              }
-                          });
+            $http.post('app/rest/register', $scope.registerAccount).success(function () {
+                $scope.error = null;
+                $scope.errorUserExists = null;
+                $scope.success = 'OK';
+            }).error(function (data, status) {
+                $scope.success = null;
+                if (status === 304 &&
+                    data.error && data.error === "Not Modified") {
+                    $scope.error = null;
+                    $scope.errorUserExists = "ERROR";
+                } else {
+                    $scope.error = "ERROR";
+                    $scope.errorUserExists = null;
+                }
+            });
         }
     }
 });
