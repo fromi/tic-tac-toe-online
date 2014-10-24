@@ -1,22 +1,28 @@
 package com.github.fromi.tictactoeonline.web.websocket;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fromi.tictactoeonline.web.websocket.dto.ActivityDTO;
-import com.github.fromi.tictactoeonline.web.websocket.dto.ActivityDTOJacksonDecoder;
+import java.io.IOException;
+import java.util.Calendar;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
+
 import org.atmosphere.config.service.Disconnect;
 import org.atmosphere.config.service.ManagedService;
 import org.atmosphere.config.service.Message;
-import org.atmosphere.cpr.*;
+import org.atmosphere.cpr.AtmosphereFramework;
+import org.atmosphere.cpr.AtmosphereRequest;
+import org.atmosphere.cpr.AtmosphereResource;
+import org.atmosphere.cpr.AtmosphereResourceEvent;
+import org.atmosphere.cpr.Broadcaster;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
-import java.io.IOException;
-import java.util.Calendar;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fromi.tictactoeonline.web.websocket.dto.ActivityDTO;
+import com.github.fromi.tictactoeonline.web.websocket.dto.ActivityDTOJacksonDecoder;
 
 @ManagedService(
         path = "/websocket/activity")
@@ -26,9 +32,9 @@ public class ActivityService {
 
     private Broadcaster b;
 
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
 
-    private ObjectMapper jsonMapper = new ObjectMapper();
+    private final ObjectMapper jsonMapper = new ObjectMapper();
 
     @Inject
     private ServletContext servletContext;
@@ -52,7 +58,7 @@ public class ActivityService {
 
     @Message(decoders = {ActivityDTOJacksonDecoder.class})
     public void onMessage(AtmosphereResource atmosphereResource, ActivityDTO activityDTO) throws IOException {
-        if (activityDTO.getUserLogin() != null){
+        if (activityDTO.getUserLogin() != null) {
             AtmosphereRequest request = atmosphereResource.getRequest();
             activityDTO.setUuid(atmosphereResource.uuid());
             activityDTO.setIpAddress(request.getRemoteAddr());

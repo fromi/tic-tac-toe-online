@@ -1,14 +1,14 @@
 package com.github.fromi.tictactoeonline.web.filter.gzip;
 
-import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-class GZipServletOutputStream extends ServletOutputStream {
-    private OutputStream stream;
+import javax.servlet.ServletOutputStream;
 
-    public GZipServletOutputStream(OutputStream output)
-            throws IOException {
+class GZipServletOutputStream extends ServletOutputStream {
+    private final OutputStream stream;
+
+    public GZipServletOutputStream(OutputStream output) {
         super();
         this.stream = output;
     }

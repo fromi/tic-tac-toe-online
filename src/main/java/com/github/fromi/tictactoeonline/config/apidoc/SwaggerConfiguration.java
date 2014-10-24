@@ -1,9 +1,5 @@
 package com.github.fromi.tictactoeonline.config.apidoc;
 
-import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
-import com.mangofactory.swagger.plugin.EnableSwagger;
-import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
-import com.wordnik.swagger.model.ApiInfo;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
@@ -11,10 +7,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 
+import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
+import com.mangofactory.swagger.plugin.EnableSwagger;
+import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
+import com.wordnik.swagger.model.ApiInfo;
+
 @Configuration
 @EnableSwagger
 public class SwaggerConfiguration implements EnvironmentAware {
-    public static final String DEFAULT_INCLUDE_PATTERN = "/app/rest/.*";
+    private static final String DEFAULT_INCLUDE_PATTERN = "/app/rest/.*";
 
     private RelaxedPropertyResolver propertyResolver;
 

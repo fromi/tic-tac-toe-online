@@ -1,11 +1,13 @@
 package com.github.fromi.tictactoeonline.domain;
 
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * An authority (a security role) used by Spring Security.
@@ -38,11 +40,8 @@ public class Authority implements Serializable {
 
         Authority authority = (Authority) o;
 
-        if (name != null ? !name.equals(authority.name) : authority.name != null) {
-            return false;
-        }
+        return !(name != null ? !name.equals(authority.name) : authority.name != null);
 
-        return true;
     }
 
     @Override

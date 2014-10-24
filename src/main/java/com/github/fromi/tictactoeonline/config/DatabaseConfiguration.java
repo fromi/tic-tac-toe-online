@@ -1,13 +1,13 @@
 package com.github.fromi.tictactoeonline.config;
 
 
-import com.mongodb.Mongo;
+import javax.inject.Inject;
+
 import org.mongeez.Mongeez;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
-import org.springframework.context.ApplicationContextException;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import javax.inject.Inject;
+
+import com.mongodb.Mongo;
 
 @Configuration
 @EnableMongoRepositories("com.github.fromi.tictactoeonline.repository")
@@ -31,17 +32,15 @@ public class DatabaseConfiguration implements EnvironmentAware {
 
     private RelaxedPropertyResolver propertyResolver;
 
-    private Environment environment;
-
     @Inject
     private Mongo mongo;
-    
+
 
     @Override
     public void setEnvironment(Environment environment) {
-        this.environment = environment;
         this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.data.mongodb.");
     }
+
     @Bean
     public ValidatingMongoEventListener validatingMongoEventListener() {
         return new ValidatingMongoEventListener(validator());
@@ -69,6 +68,6 @@ public class DatabaseConfiguration implements EnvironmentAware {
 
         return mongeez;
     }
-    
+
 }
 

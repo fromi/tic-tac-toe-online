@@ -1,9 +1,12 @@
 package com.github.fromi.tictactoeonline.security;
 
-import com.github.fromi.tictactoeonline.domain.PersistentToken;
-import com.github.fromi.tictactoeonline.domain.User;
-import com.github.fromi.tictactoeonline.repository.PersistentTokenRepository;
-import com.github.fromi.tictactoeonline.repository.UserRepository;
+import java.security.SecureRandom;
+import java.util.Arrays;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,17 +22,16 @@ import org.springframework.security.web.authentication.rememberme.RememberMeAuth
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.security.SecureRandom;
-import java.util.Arrays;
+import com.github.fromi.tictactoeonline.domain.PersistentToken;
+import com.github.fromi.tictactoeonline.domain.User;
+import com.github.fromi.tictactoeonline.repository.PersistentTokenRepository;
+import com.github.fromi.tictactoeonline.repository.UserRepository;
 
 /**
  * Custom implementation of Spring Security's RememberMeServices.
- * <p/>
+ * <p>
  * Persistent tokens are used by Spring Security to automatically log in users.
- * <p/>
+ * <p>
  * This is a specific implementation of Spring Security's remember-me authentication, but it is much
  * more powerful than the standard implementations:
  * <ul>
@@ -37,17 +39,17 @@ import java.util.Arrays;
  * <li>It stores more information, such as the IP address and the user agent, for audit purposes<li>
  * <li>When a user logs out, only his current session is invalidated, and not all of his sessions</li>
  * </ul>
- * <p/>
+ * <p>
  * This is inspired by:
  * <ul>
  * <li><a href="http://jaspan.com/improved_persistent_login_cookie_best_practice">Improved Persistent Login Cookie
  * Best Practice</a></li>
  * <li><a href="https://github.com/blog/1661-modeling-your-app-s-user-session">Github's "Modeling your App's User Session"</a></li></li>
  * </ul>
- * <p/>
+ * <p>
  * The main algorithm comes from Spring Security's PersistentTokenBasedRememberMeServices, but this class
  * couldn't be cleanly extended.
- * <p/>
+ * <p>
  */
 @Service
 public class CustomPersistentRememberMeServices extends
@@ -64,7 +66,7 @@ public class CustomPersistentRememberMeServices extends
 
     private static final int DEFAULT_TOKEN_LENGTH = 16;
 
-    private SecureRandom random;
+    private final SecureRandom random;
 
     @Inject
     private PersistentTokenRepository persistentTokenRepository;
@@ -126,7 +128,7 @@ public class CustomPersistentRememberMeServices extends
 
     /**
      * When logout occurs, only invalidate the current token, and not all user sessions.
-     * <p/>
+     * <p>
      * The standard Spring Security implementations are too basic: they invalidate all tokens for the
      * current user, so when he logs out from one browser, all his other sessions are destroyed.
      */
@@ -154,7 +156,7 @@ public class CustomPersistentRememberMeServices extends
     private PersistentToken getPersistentToken(String[] cookieTokens) {
         if (cookieTokens.length != 2) {
             throw new InvalidCookieException("Cookie token did not contain " + 2 +
-                    " tokens, but contained '" + Arrays.asList(cookieTokens) + "'");
+                                                     " tokens, but contained '" + Arrays.asList(cookieTokens) + "'");
         }
 
         final String presentedSeries = cookieTokens[0];

@@ -1,7 +1,10 @@
 package com.github.fromi.tictactoeonline.domain;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -9,10 +12,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -42,11 +43,11 @@ public class PersistentToken implements Serializable {
     @Size(min = 0, max = 39)
     private String ipAddress;
 
-    
+
     private String userAgent;
 
     @JsonIgnore
-    
+
     @DBRef
     private User user;
 
@@ -118,11 +119,8 @@ public class PersistentToken implements Serializable {
 
         PersistentToken that = (PersistentToken) o;
 
-        if (!series.equals(that.series)) {
-            return false;
-        }
+        return series.equals(that.series);
 
-        return true;
     }
 
     @Override

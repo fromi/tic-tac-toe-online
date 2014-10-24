@@ -8,10 +8,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
  * SpringBoot Actuator HealthIndicator check for the Database.
  */
 public class DatabaseHealthIndicator extends AbstractHealthIndicator {
-    
-    private MongoTemplate mongoTemplate;
 
-    
+    private final MongoTemplate mongoTemplate;
+
+
     public DatabaseHealthIndicator(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
