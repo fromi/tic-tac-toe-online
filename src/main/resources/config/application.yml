@@ -14,6 +14,11 @@ async:
     queueCapacity: 10000
 
 spring:
+    data:
+        mongodb:
+            host: localhost
+            port: 27017
+            databaseName: TicTacToe
     mail:
         host: localhost
         port: 25
