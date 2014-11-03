@@ -1,7 +1,5 @@
 package com.github.fromi.tictactoeonline.config;
 
-import static org.atmosphere.annotation.AnnotationUtil.broadcaster;
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +8,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-import org.atmosphere.cache.UUIDBroadcasterCache;
 import org.atmosphere.client.TrackMessageSizeInterceptor;
 import org.atmosphere.config.managed.ManagedAtmosphereHandler;
 import org.atmosphere.config.managed.ManagedServiceInterceptor;
@@ -18,9 +15,6 @@ import org.atmosphere.cpr.AtmosphereFramework;
 import org.atmosphere.cpr.AtmosphereHandler;
 import org.atmosphere.cpr.AtmosphereInterceptor;
 import org.atmosphere.cpr.AtmosphereServlet;
-import org.atmosphere.cpr.BroadcastFilter;
-import org.atmosphere.cpr.BroadcasterConfig;
-import org.atmosphere.cpr.DefaultBroadcaster;
 import org.atmosphere.cpr.SessionSupport;
 import org.atmosphere.interceptor.AtmosphereResourceLifecycleInterceptor;
 import org.atmosphere.interceptor.SuspendTrackerInterceptor;
@@ -41,6 +35,11 @@ public class AtmosphereConfiguration implements ServletContextInitializer {
     @Bean
     public ActivityService activityService() {
         return new ActivityService();
+    }
+
+    @Bean
+    public TrackerService trackerService() {
+        return new TrackerService();
     }
 
     @Override
@@ -77,49 +76,20 @@ public class AtmosphereConfiguration implements ServletContextInitializer {
 
         @Override
         protected void autoConfigureService(ServletContext sc) throws IOException {
-            handle((Class) ActivityService.class, "/websocket/activity");
-            handle((Class) TrackerService.class, "/websocket/tracker");
+            handle(activityService(), "/websocket/activity");
+            handle(trackerService(), "/websocket/tracker");
         }
 
-        private void handle(Class annotatedClass, String path) {
-            try {
+        private void handle(Object managedService, String path) {
+            List<AtmosphereInterceptor> interceptors = new LinkedList<>();
+            // MUST BE ADDED FIRST, ALWAYS!
+            interceptors.add(new ManagedServiceInterceptor());
+            interceptors.add(new AtmosphereResourceLifecycleInterceptor());
+            interceptors.add(new TrackMessageSizeInterceptor());
+            interceptors.add(new SuspendTrackerInterceptor());
 
-                this.setBroadcasterCacheClassName(UUIDBroadcasterCache.class.getName());
-
-                List<AtmosphereInterceptor> l = new LinkedList<>();
-
-                Object c = this.newClassInstance(Object.class, annotatedClass);
-                AtmosphereHandler handler = this.newClassInstance(null, ManagedAtmosphereHandler.class).configure(this.getAtmosphereConfig(), c);
-
-                // MUST BE ADDED FIRST, ALWAYS!
-                l.add(this.newClassInstance(null, ManagedServiceInterceptor.class));
-                l.add(this.newClassInstance(null, AtmosphereResourceLifecycleInterceptor.class));
-                l.add(this.newClassInstance(null, TrackMessageSizeInterceptor.class));
-                l.add(this.newClassInstance(null, SuspendTrackerInterceptor.class));
-
-                this.filterManipulator(new BroadcasterConfig.FilterManipulator() {
-                    @Override
-                    public Object unwrap(Object o) {
-                        if (o != null && ManagedAtmosphereHandler.Managed.class.isAssignableFrom(o.getClass())) {
-                            o = ManagedAtmosphereHandler.Managed.class.cast(o).object();
-                        }
-                        return o;
-                    }
-
-                    @Override
-                    public BroadcastFilter.BroadcastAction wrap(BroadcastFilter.BroadcastAction a, boolean wasWrapped) {
-                        if (wasWrapped) {
-                            return new BroadcastFilter.BroadcastAction(a.action(), new ManagedAtmosphereHandler.Managed(a.message()));
-                        } else {
-                            return a;
-                        }
-                    }
-                });
-
-                this.addAtmosphereHandler(path, handler, broadcaster(this, DefaultBroadcaster.class, path), l);
-            } catch (Exception e) {
-                logger.warn("", e);
-            }
+            AtmosphereHandler handler = new ManagedAtmosphereHandler().configure(this.getAtmosphereConfig(), managedService);
+            this.addAtmosphereHandler(path, handler, interceptors);
         }
 
     }
